@@ -1,5 +1,5 @@
 package com.cg.config;
-
+import org.springframework.http.HttpMethod;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.cg.security.JwtAuthFilter;
 
+
 @Configuration
 public class SecurityConfig {
 
@@ -22,28 +23,34 @@ public class SecurityConfig {
 	private JwtAuthFilter jwtAuthFilter;
 	
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
-        		.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/signup","/generateToken", "/viewall").permitAll())
-        		.authorizeHttpRequests(auth -> auth.requestMatchers("/profile").authenticated())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui.html").permitAll())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**","/swagger-resources/*",
-                        "/v3/api-docs/**").permitAll())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/search").authenticated())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .cors(cors -> {})  
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ✅ ADD THIS LINE
+	            .requestMatchers("/auth/**").permitAll()
+	            .requestMatchers("/generateToken").permitAll()
+	            .requestMatchers("/profile").permitAll()
+	            
+	            .anyRequest().authenticated()
+	        );
+
+	    return http.build();
+	}
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(List.of("http://localhost:4200"));
-		config.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "OPTIONS"));
-		config.setAllowedHeaders(List.of("*"));
-		config.setAllowCredentials(true);
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", config);
-		return source;
+	    CorsConfiguration config = new CorsConfiguration();
+
+	    config.setAllowedOrigins(List.of("http://localhost:4200"));
+	    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	    config.setAllowedHeaders(List.of("*"));
+	    config.setAllowCredentials(true);
+
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", config);
+
+	    return source;
 	}
 }
 

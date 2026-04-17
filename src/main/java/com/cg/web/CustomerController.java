@@ -15,11 +15,15 @@ public class CustomerController {
     private CustomerRepo customerRepo;
     @GetMapping("/profile")
     public Customer getProfile() {
-        String username = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+        var auth = SecurityContextHolder.getContext().getAuthentication();
 
-        return customerRepo.findByUsername(username);
+        System.out.println("AUTH: " + auth);
+        System.out.println("USERNAME: " + auth.getName());
+
+        Customer customer = customerRepo.findByUsername(auth.getName());
+
+        System.out.println("CUSTOMER: " + customer);
+
+        return customer;
     }
 }

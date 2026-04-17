@@ -25,16 +25,16 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
-	        .cors(cors -> {})  
+	        .cors(cors -> {})
 	        .csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ✅ ADD THIS LINE
+	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 	            .requestMatchers("/auth/**").permitAll()
 	            .requestMatchers("/generateToken").permitAll()
-	            .requestMatchers("/profile").permitAll()
-	            
+	            .requestMatchers("/profile").authenticated() // ✅ FIXED
 	            .anyRequest().authenticated()
-	        );
+	        )
+	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // ✅ VERY IMPORTANT
 
 	    return http.build();
 	}

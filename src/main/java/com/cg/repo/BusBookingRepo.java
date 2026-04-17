@@ -4,6 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.cg.entity.BusBooking;
 
-public interface BusBookingRepo extends JpaRepository<BusBooking,Long>{
-
+public interface BusBookingRepo extends JpaRepository<BusBooking, Long> {
 }

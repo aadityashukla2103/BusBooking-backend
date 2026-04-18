@@ -31,7 +31,10 @@ public class SecurityConfig {
 	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 	            .requestMatchers("/auth/**").permitAll()
 	            .requestMatchers("/generateToken").permitAll()
-	            .requestMatchers("/profile").authenticated() // ✅ FIXED
+	            .requestMatchers("/profile").authenticated()
+	            .requestMatchers("/schedule/search").authenticated()
+	            .requestMatchers("/route/**", "/schedule/**").hasRole("ADMIN")
+	            
 	            .anyRequest().authenticated()
 	        )
 	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // ✅ VERY IMPORTANT

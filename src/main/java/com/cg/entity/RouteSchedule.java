@@ -1,12 +1,14 @@
 package com.cg.entity;
 import jakarta.persistence.Entity;
 
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class RouteSchedule {
 
@@ -20,17 +22,19 @@ public class RouteSchedule {
     private int totalSeats;
     private int availableSeats;
 
-    private String status; // ACTIVE / CANCELLED
-
+    @Enumerated(EnumType.STRING)
+    private ScheduleStatus status; // ACTIVE / CANCELLED
+    @JsonProperty("route")
     @ManyToOne
     @JoinColumn(name = "route_id")
     private Route route;
-
+    @JsonProperty("bus")
     @ManyToOne
     @JoinColumn(name = "bus_id")
     private Bus bus;
 
-    @OneToMany(mappedBy = "schedule")
+    @JsonIgnore
+    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
     private List<BusBooking> bookings;
 
 	public Long getId() {
@@ -47,6 +51,13 @@ public class RouteSchedule {
 
 	public void setScheduleDate(LocalDate scheduleDate) {
 		this.scheduleDate = scheduleDate;
+	}
+	public ScheduleStatus getStatus() {
+	    return status;
+	}
+
+	public void setStatus(ScheduleStatus status) {
+	    this.status = status;
 	}
 
 	public LocalTime getDepartureTime() {
@@ -73,13 +84,6 @@ public class RouteSchedule {
 		this.availableSeats = availableSeats;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public Route getRoute() {
 		return route;

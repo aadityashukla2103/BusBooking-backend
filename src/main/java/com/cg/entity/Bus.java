@@ -2,6 +2,8 @@ package com.cg.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +20,7 @@ public class Bus {
     private String busNumber;
     private String busType; // AC / Sleeper
     private int totalSeats;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "bus")
     private List<RouteSchedule> schedules;
 

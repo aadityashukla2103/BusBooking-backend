@@ -1,5 +1,6 @@
 package com.cg.entity;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
@@ -13,8 +14,9 @@ public class Route {
     private String source;
     private String destination;
 
-    @OneToMany(mappedBy = "route")
-    private List<RouteSchedule> schedules;
+    @JsonIgnore
+    @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)
+    private List<RouteSchedule> schedules;;
 
 	public Long getId() {
 		return id;

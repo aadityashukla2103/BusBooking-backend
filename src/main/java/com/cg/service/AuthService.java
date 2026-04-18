@@ -45,7 +45,7 @@ public class AuthService {
 
         RolePk pk = new RolePk();
         pk.setUserName(dto.getUsername());
-        pk.setRoleName("ROLE_USER");
+        pk.setRoleName("ROLE_ADMIN");
 
         Role role = new Role();
         role.setKey(pk);

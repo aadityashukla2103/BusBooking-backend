@@ -28,16 +28,28 @@ public class SecurityConfig {
 	        .cors(cors -> {})
 	        .csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(auth -> auth
+
+	            // ✅ Preflight (CORS)
 	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-	            .requestMatchers("/auth/**").permitAll()
-	            .requestMatchers("/generateToken").permitAll()
+
+	            // ✅ Auth APIs (public)
+	            .requestMatchers("/auth/**", "/generateToken").permitAll()
+
+	            // ✅ PUBLIC APIs (NO LOGIN REQUIRED)
+	            .requestMatchers(HttpMethod.GET, "/route").permitAll()
+	            .requestMatchers("/schedule/search").permitAll()
+
+	            // 🔒 ADMIN ONLY
+	            .requestMatchers(HttpMethod.POST, "/route").hasRole("ADMIN")
+	            .requestMatchers(HttpMethod.POST, "/schedule").hasRole("ADMIN")
+
+	            // 🔒 USER (LOGIN REQUIRED)
 	            .requestMatchers("/profile").authenticated()
-	            .requestMatchers("/schedule/search").authenticated()
-	            .requestMatchers("/route/**", "/schedule/**").hasRole("ADMIN")
-	            
+
+	            // 🔒 Everything else
 	            .anyRequest().authenticated()
 	        )
-	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // ✅ VERY IMPORTANT
+	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 	    return http.build();
 	}

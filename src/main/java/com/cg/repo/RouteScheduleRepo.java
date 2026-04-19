@@ -10,6 +10,6 @@ import com.cg.entity.RouteSchedule;
 
 public interface RouteScheduleRepo extends JpaRepository<RouteSchedule, Long> {
 
-    @Query("SELECT rs FROM RouteSchedule rs WHERE rs.route.source = :source AND rs.route.destination = :destination AND rs.scheduleDate = :date")
+    @Query("SELECT rs FROM RouteSchedule rs WHERE rs.route.source = :source AND rs.route.destination = :destination AND rs.scheduleDate >= :date")
     List<RouteSchedule> findSchedules(String source, String destination, LocalDate date);
 }

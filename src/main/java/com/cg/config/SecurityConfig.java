@@ -28,9 +28,14 @@ public class SecurityConfig {
 	        .cors(cors -> {})
 	        .csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(auth -> auth
-
-	            // ✅ Preflight (CORS)
 	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+	            
+	         // Swagger Public
+	            .requestMatchers(
+	                "/swagger-ui/**",
+	                "/v3/api-docs/**",
+	                "/swagger-ui.html"
+	            ).permitAll()
 
 	            // ✅ Auth APIs (public)
 	            .requestMatchers("/auth/**", "/generateToken").permitAll()
@@ -41,10 +46,13 @@ public class SecurityConfig {
 
 	            // 🔒 ADMIN ONLY
 	            .requestMatchers(HttpMethod.POST, "/route").hasRole("ADMIN")
-	            .requestMatchers(HttpMethod.POST, "/schedule").hasRole("ADMIN")
+//	            .requestMatchers(HttpMethod.POST, "/schedule").hasRole("ADMIN")
+	            .requestMatchers(HttpMethod.POST, "/schedule").permitAll()
 
 	            // 🔒 USER (LOGIN REQUIRED)
 	            .requestMatchers("/profile").authenticated()
+	            .requestMatchers(HttpMethod.POST, "/booking").authenticated()
+	            .requestMatchers("/my-bookings").authenticated()
 
 	            // 🔒 Everything else
 	            .anyRequest().authenticated()

@@ -62,8 +62,8 @@ public class ScheduleController {
 
         return scheduleRepo
             .findSchedules(
-                source,
-                destination,
+                source.trim(),
+                destination.trim(),
                 LocalDate.parse(date)
             );
     }

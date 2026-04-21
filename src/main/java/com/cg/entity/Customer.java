@@ -1,68 +1,12 @@
+// Customer.java
 package com.cg.entity;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-//@Entity
-//public class Customer {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    private String name;
-//    private String phone;
-//    private String password;
-//    @OneToMany(mappedBy = "customer")
-//    private List<BusBooking> bookings;
-//    
-//
-//	public String getPassword() {
-//		return password;
-//	}
-//
-//	public void setPassword(String password) {
-//		this.password = password;
-//	}
-//
-//	public Long getId() {
-//		return id;
-//	}
-//
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
-//
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public String getPhone() {
-//		return phone;
-//	}
-//
-//	public void setPhone(String phone) {
-//		this.phone = phone;
-//	}
-//
-//	public List<BusBooking> getBookings() {
-//		return bookings;
-//	}
-//
-//	public void setBookings(List<BusBooking> bookings) {
-//		this.bookings = bookings;
-//	}
-//    
-//}
+import jakarta.persistence.*;
+
 @Entity
 public class Customer {
 
@@ -70,54 +14,51 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username; // 🔗 LINK WITH USERS TABLE
-
+    private String username;
     private String name;
     private String phone;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<BusBooking> bookings;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public List<BusBooking> getBookings() {
-		return bookings;
-	}
+    public List<BusBooking> getBookings() {
+        return bookings;
+    }
 
-	public void setBookings(List<BusBooking> bookings) {
-		this.bookings = bookings;
-	}
-
-    // getters & setters
-    
+    public void setBookings(List<BusBooking> bookings) {
+        this.bookings = bookings;
+    }
 }

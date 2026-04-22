@@ -23,7 +23,7 @@ public class RouteSchedule {
     private int availableSeats;
 
     @Enumerated(EnumType.STRING)
-    private ScheduleStatus status; // ACTIVE / CANCELLED
+    private ScheduleStatus status;
     @JsonProperty("route")
     @ManyToOne
     @JoinColumn(name = "route_id")

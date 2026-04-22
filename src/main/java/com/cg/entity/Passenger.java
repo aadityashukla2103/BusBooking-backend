@@ -1,4 +1,3 @@
-// Passenger.java
 package com.cg.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

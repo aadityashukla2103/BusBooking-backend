@@ -45,7 +45,13 @@ public class BookingService {
 
         Customer customer = customerRepo.findByUsername(username);
 
-        return bookingRepo.findByCustomer(customer);
+        List<BusBooking> bookings = bookingRepo.findByCustomer(customer);
+
+        bookings.sort((b1, b2) -> 
+            b2.getBookingDate().compareTo(b1.getBookingDate())
+        );
+
+        return bookings;
     }
 
     public BookingResponseDto createBooking(BookingRequestDto dto) {

@@ -18,7 +18,7 @@ public class Bus {
     private Long id;
 
     private String busNumber;
-    private String busType; // AC / Sleeper
+    private String busType;
     private int totalSeats;
     @JsonIgnore
     @OneToMany(mappedBy = "bus")

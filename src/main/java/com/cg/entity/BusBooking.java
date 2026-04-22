@@ -1,4 +1,3 @@
-// BusBooking.java
 package com.cg.entity;
 
 import java.time.LocalDateTime;

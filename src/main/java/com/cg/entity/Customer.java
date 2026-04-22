@@ -1,4 +1,3 @@
-// Customer.java
 package com.cg.entity;
 
 import java.util.List;
